@@ -13,12 +13,7 @@ int server_setup() {
   char * wkp = "./toClient";
   mkfifo(wkp, 0666);
   int from_client = open(wkp, "O_RDONLY");
-  char buffer[256];
-  while (read(from_client, buffer, 256) != 0) {
-    if (strlen(buffer) > 0) {
-      remove(wkp);
-    }
-  }
+  remove(wkp);
   return from_client;
 }
 
@@ -31,9 +26,12 @@ int server_setup() {
 
   returns the file descriptor for the upstream pipe (see server setup).
   =========================*/
-  int server_handshake(int *to_client) {
-  int from_client;
-  *to_client = open(_____, "O_READ");;
+int server_handshake(int *to_client) {
+  int from_client = server_setup();
+  char buffer[256];
+  while (! read(from_client, buffer, 256)) {
+  }
+  *to_client = open(buffer, ___);
   //srand(time(NULL));
   //int syn_ack = (int) rand();
   return from_client;
