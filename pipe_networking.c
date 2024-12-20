@@ -34,20 +34,27 @@ int server_handshake(int *to_client) {
   int from_client = server_setup();
   printf("2\n");
   char buffer[16];
-  while (! read(from_client, buffer, 16)) {
-  }
+  read(from_client, buffer, 16);
+  printf("3\n");
   *to_client = open(buffer, O_WRONLY);
+  printf("4\n");
   srand(time(NULL));
+  printf("5\n");
   int x = (int) rand();
-  char randint[4];
+  char randint[16];
   sprintf(randint, "%d", x);
-  write(*to_client, randint, 4);
-  char randIntPlusOne[4];
-  while (! read(from_client, randIntPlusOne, 4)) {
-  }
+  write(*to_client, randint, 16);
+  printf("6\n");
+  char randIntPlusOne[16];
+  read(from_client, randIntPlusOne, 16);
+  printf("7\n");
   int xPlusOne = atoi(randIntPlusOne);
   if (xPlusOne == x+1) {
-    printf("YAY\n");
+    printf("YAY it all works\n");
+  }
+  else {
+
+    printf("rand: %d, returned rand: %d\n", x, xPlusOne);
   }
   return from_client;
 }
@@ -74,15 +81,18 @@ int client_handshake(int *to_server) {
   *to_server = open("./toServer", O_WRONLY);
   printf("client 5\n");
   write(*to_server, pp, strlen(pp));
+  printf("client 6\n");
   int from_server = open(pp, O_RDONLY);
+  printf("client 7\n");
   char buffer[16];
-  while (! read(from_server, buffer, 16)) {
-  }
+  read(from_server, buffer, 16);
   int rando = atoi(buffer);
+  printf("client 7, rand: %d\n", rando);
   rando++;
-  char randoPlusOne[4];
+  char randoPlusOne[16];
   sprintf(randoPlusOne, "%d", rando);
-  write(*to_server, randoPlusOne, 4);
+  write(*to_server, randoPlusOne, 16);
+  printf("client 8\n");
   return from_server;
 }
 
