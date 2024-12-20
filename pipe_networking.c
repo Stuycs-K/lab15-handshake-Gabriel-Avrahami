@@ -10,7 +10,7 @@
   returns the file descriptor for the upstream pipe.
   =========================*/
 int server_setup() {
-  char * wkp = "./toClient";
+  char * wkp = "./toServer";
   mkfifo(wkp, 0666);
   int from_client = open(wkp, O_RDONLY);
   remove(wkp);
@@ -51,7 +51,12 @@ int server_handshake(int *to_client) {
   returns the file descriptor for the downstream pipe.
   =========================*/
 int client_handshake(int *to_server) {
-  int from_server;
+  int fds[2];
+  pipe(fds);
+  close(fds[2]);
+  *to_server = open("./toServer", O_WRONLY);
+  write(*to_server, p, );
+  int from_server = open(fds[i], O_RDONLY);
   return from_server;
 }
 
