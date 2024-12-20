@@ -28,8 +28,8 @@ int server_setup() {
   =========================*/
 int server_handshake(int *to_client) {
   int from_client = server_setup();
-  char buffer[256];
-  while (! read(from_client, buffer, 256)) {
+  char buffer[16];
+  while (! read(from_client, buffer, 16)) {
   }
   *to_client = open(buffer, O_WRONLY);
   srand(time(NULL));
@@ -51,12 +51,21 @@ int server_handshake(int *to_client) {
   returns the file descriptor for the downstream pipe.
   =========================*/
 int client_handshake(int *to_server) {
-  int fds[2];
-  pipe(fds);
-  close(fds[2]);
+  int p = getpid();
+  char * pp;
+  sprintf(pp, "./%s", p);
+  mkfifo(pp, 0666);
   *to_server = open("./toServer", O_WRONLY);
-  write(*to_server, p, );
-  int from_server = open(fds[i], O_RDONLY);
+  write(*to_server, pp, strlen(pp));
+  int from_server = open(pp, O_RDONLY);
+  char buffer[16];
+  while (! read(from_server, buffer, 16)) {
+  }
+  int rando = atoi(buffer);
+  rando++;
+  char randoPlusOne[4];
+  sprintf(randoPlusOne, "%d", rando);
+  write(*to_server, randoPlusOne, 4);
   return from_server;
 }
 
