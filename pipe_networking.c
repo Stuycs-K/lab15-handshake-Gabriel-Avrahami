@@ -12,7 +12,7 @@
 int server_setup() {
   char * wkp = "./toClient";
   mkfifo(wkp, 0666);
-  int from_client = open(wkp, "O_RDONLY");
+  int from_client = open(wkp, O_RDONLY);
   remove(wkp);
   return from_client;
 }
@@ -31,9 +31,12 @@ int server_handshake(int *to_client) {
   char buffer[256];
   while (! read(from_client, buffer, 256)) {
   }
-  *to_client = open(buffer, ___);
-  //srand(time(NULL));
-  //int syn_ack = (int) rand();
+  *to_client = open(buffer, O_WRONLY);
+  srand(time(NULL));
+  int x = (int) rand();
+  char randint[4];
+  sprintf(randint, "%d", x);
+  write(*to_client, randint, 4);
   return from_client;
 }
 
