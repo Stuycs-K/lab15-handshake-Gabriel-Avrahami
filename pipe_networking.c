@@ -12,8 +12,11 @@
 int server_setup() {
   char * wkp = "./toServer";
   mkfifo(wkp, 0666);
+  printf("1.1\n");
   int from_client = open(wkp, O_RDONLY);
+  printf("1.2\n");
   remove(wkp);
+  printf("1.3\n");
   return from_client;
 }
 
@@ -27,7 +30,9 @@ int server_setup() {
   returns the file descriptor for the upstream pipe (see server setup).
   =========================*/
 int server_handshake(int *to_client) {
+  printf("1\n");
   int from_client = server_setup();
+  printf("2\n");
   char buffer[16];
   while (! read(from_client, buffer, 16)) {
   }
@@ -37,6 +42,13 @@ int server_handshake(int *to_client) {
   char randint[4];
   sprintf(randint, "%d", x);
   write(*to_client, randint, 4);
+  char randIntPlusOne[4];
+  while (! read(from_client, randIntPlusOne, 4)) {
+  }
+  int xPlusOne = atoi(randIntPlusOne);
+  if (xPlusOne == x+1) {
+    printf("YAY\n");
+  }
   return from_client;
 }
 
@@ -51,11 +63,16 @@ int server_handshake(int *to_client) {
   returns the file descriptor for the downstream pipe.
   =========================*/
 int client_handshake(int *to_server) {
+  printf("client 1\n");
   int p = getpid();
-  char * pp;
-  sprintf(pp, "./%s", p);
+  printf("client 2\n");
+  char pp[4];
+  sprintf(pp, "./%d", p);
+  printf("client 3\n");
   mkfifo(pp, 0666);
+  printf("client 4\n");
   *to_server = open("./toServer", O_WRONLY);
+  printf("client 5\n");
   write(*to_server, pp, strlen(pp));
   int from_server = open(pp, O_RDONLY);
   char buffer[16];
