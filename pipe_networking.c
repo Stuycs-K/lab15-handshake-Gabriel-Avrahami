@@ -15,7 +15,7 @@ int server_setup() {
   printf("1.1\n");
   int from_client = open(wkp, O_RDONLY);
   printf("1.2\n");
-  remove(wkp);
+  unlink(wkp);
   printf("1.3\n");
   return from_client;
 }
@@ -38,7 +38,6 @@ int server_handshake(int *to_client) {
   printf("3\n");
   *to_client = open(buffer, O_WRONLY);
   printf("4\n");
-  srand(time(NULL));
   printf("5\n");
   int x = (int) rand();
   char randint[16];
@@ -74,7 +73,7 @@ int client_handshake(int *to_server) {
   int p = getpid();
   printf("client 2\n");
   char pp[4];
-  sprintf(pp, "./%d", p);
+  sprintf(pp, "%d", p);
   printf("client 3\n");
   mkfifo(pp, 0666);
   printf("client 4\n");
