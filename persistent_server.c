@@ -4,21 +4,30 @@ int main() {
   srand(time(NULL));
 
   while (1) {
-    int to_client = (int*) (malloc(sizeof(int)));
-    int from_client = (int*) (malloc(sizeof(int)));
+    printf("1st spot\n");
+    int to_client = * (int*) (malloc(sizeof(int)));
+    int from_client = * (int*) (malloc(sizeof(int)));
 
     from_client = server_handshake( &to_client );
 
     int x = 0;
     char str[16];
     while (1) {
-      x = (int) rand() % 100;
+      x = (int) rand() % 100 + 1;
       sprintf(str, "%d", x);
-      write(to_client, str, 16);
+      int errno;
+      errno = write(to_client, str, 16);
+      if (errno == -1) {
+        printf("errno %d\n", errno);
+        printf("%s\n", strerror(errno));
+        exit(1);
+      }
+      printf("2nd spot\n");
       sleep(1);
     }
-
-    free(to_client);
-    free(from_client);
+    printf("3rd spot\n");
+    free(&to_client);
+    free(&from_client);
   }
+  printf("4th spot\n");
 }

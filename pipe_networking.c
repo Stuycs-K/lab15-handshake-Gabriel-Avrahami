@@ -15,7 +15,7 @@ int server_setup() {
   //printf("1.1\n");
   int from_client = open(wkp, O_RDONLY);
   //printf("1.2\n");
-  unlink(wkp);
+  remove(wkp);
   //printf("1.3\n");
   return from_client;
 }
