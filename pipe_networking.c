@@ -15,7 +15,7 @@ int server_setup() {
   //printf("1.1\n");
   int from_client = open(wkp, O_RDONLY);
   //printf("1.2\n");
-  remove(wkp);
+  unlink(wkp);
   //printf("1.3\n");
   return from_client;
 }
@@ -30,30 +30,32 @@ int server_setup() {
   returns the file descriptor for the upstream pipe (see server setup).
   =========================*/
 int server_handshake(int *to_client) {
-  //printf("1\n");
+  printf("1\n");
   int from_client = server_setup();
-  //printf("2\n");
-  char buffer[16];
-  read(from_client, buffer, 16);
-  //printf("3\n");
-  *to_client = open(buffer, O_WRONLY);
-  //printf("4\n");
-  //printf("5\n");
+  printf("2\n");
+  int buffer;
+  read(from_client, & buffer, sizeof(int));
+  printf("3\n");
+  char bufferr[16];
+  sprintf(bufferr, "%d", buffer);
+  *to_client = open(bufferr, O_WRONLY);
+  printf("4\n");
+  printf("5\n");
   int x = (int) rand();
   char randint[16];
   sprintf(randint, "%d", x);
   write(*to_client, randint, 16);
-  //printf("6\n");
+  printf("6\n");
   char randIntPlusOne[16];
   read(from_client, randIntPlusOne, 16);
-  //printf("7\n");
+  printf("7\n");
   int xPlusOne = atoi(randIntPlusOne);
   if (xPlusOne == x+1) {
-    //printf("YAY it all works\n");
+    printf("YAY it all works\n");
   }
   else {
 
-    //printf("rand: %d, returned rand: %d\n", x, xPlusOne);
+    printf("rand: %d, returned rand: %d\n", x, xPlusOne);
   }
   return from_client;
 }
@@ -69,29 +71,29 @@ int server_handshake(int *to_client) {
   returns the file descriptor for the downstream pipe.
   =========================*/
 int client_handshake(int *to_server) {
-  //printf("client 1\n");
+  printf("client 1\n");
   int p = getpid();
-  //printf("client 2\n");
+  printf("client 2\n");
   char pp[4];
   sprintf(pp, "%d", p);
-  //printf("client 3\n");
+  printf("client 3\n");
   mkfifo(pp, 0666);
-  //printf("client 4\n");
+  printf("client 4\n");
   *to_server = open("./toServer", O_WRONLY);
-  //printf("client 5\n");
-  write(*to_server, pp, strlen(pp));
-  //printf("client 6\n");
+  printf("client 5\n");
+  write(*to_server, & p, sizeof(int));
+  printf("client 6\n");
   int from_server = open(pp, O_RDONLY);
-  //printf("client 7\n");
+  printf("client 7\n");
   char buffer[16];
   read(from_server, buffer, 16);
   int rando = atoi(buffer);
-  //printf("client 7, rand: %d\n", rando);
+  printf("client 7, rand: %d\n", rando);
   rando++;
   char randoPlusOne[16];
   sprintf(randoPlusOne, "%d", rando);
   write(*to_server, randoPlusOne, 16);
-  //printf("client 8\n");
+  printf("client 8\n");
   return from_server;
 }
 
