@@ -31,7 +31,7 @@ int main() {
       //RESET TO TOP
     }
     else {
-      server_handshake_half(int *to_client, int from_client);
+      server_handshake_half(& to_client, from_client);
 
       //printf("hi 2nd\n");
       while (1) {

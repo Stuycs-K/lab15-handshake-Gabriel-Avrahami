@@ -99,14 +99,36 @@ int client_handshake(int *to_server) {
 
 
 /*=========================
-  server_connect
-  args: int from_client
+  server_handshake_half
+  args: int from_client, int * to_client
 
   handles the subserver portion of the 3 way handshake
 
   returns the file descriptor for the downstream pipe.
   =========================*/
-int server_connect(int from_client) {
-  int to_client  = 0;
-  return to_client;
+void server_handshake_half(int *to_client, int from_client) {
+  int buffer;
+  read(from_client, & buffer, sizeof(int));
+  //printf("3\n");
+  char bufferr[16];
+  sprintf(bufferr, "%d", buffer);
+  *to_client = open(bufferr, O_WRONLY);
+  //printf("4\n");
+  //printf("5\n");
+  int x = (int) rand();
+  char randint[16];
+  sprintf(randint, "%d", x);
+  write(*to_client, randint, 16);
+  //printf("6\n");
+  char randIntPlusOne[16];
+  read(from_client, randIntPlusOne, 16);
+  //printf("7\n");
+  int xPlusOne = atoi(randIntPlusOne);
+  if (xPlusOne == x+1) {
+    //printf("YAY it all works\n");
+  }
+  else {
+
+    //printf("rand: %d, returned rand: %d\n", x, xPlusOne);
+  }
 }
