@@ -2,7 +2,7 @@
 
 static void sighandler(int signo) {
   if (signo == SIGINT) {
-    unlink("./toServer");
+    remove("./toServer");
     exit(1);
   }
   if (signo == SIGPIPE) {
