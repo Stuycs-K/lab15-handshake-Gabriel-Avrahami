@@ -3,7 +3,7 @@
 static void sighandler(int signo) {
   if (signo == SIGINT) {
     remove("./toServer");
-    exit(1);
+    exit(0);
   }
   if (signo == SIGPIPE) {
     printf("In sigpipe\n");
