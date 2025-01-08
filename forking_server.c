@@ -6,7 +6,7 @@ static void sighandler(int signo) {
     exit(1);
   }
   if (signo == SIGPIPE) {
-    printf("In sigpipe\n");
+    //printf("In sigpipe\n");
   }
 }
 

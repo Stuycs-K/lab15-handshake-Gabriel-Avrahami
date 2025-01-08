@@ -6,7 +6,7 @@ static void sighandler(int signo) {
     exit(0);
   }
   if (signo == SIGPIPE) {
-    printf("In sigpipe\n");
+    //printf("In sigpipe\n");
   }
 }
 
@@ -15,7 +15,7 @@ int main() {
   signal(SIGPIPE, sighandler);
   srand(time(NULL));
 
-  printf("1st spot\n");
+  //printf("1st spot\n");
   int to_client;
   int from_client;
 
@@ -24,7 +24,7 @@ int main() {
 
   while (1) {
     from_client = server_handshake(&to_client);
-    printf("hi 2nd\n");
+    //printf("hi 2nd\n");
     while (1) {
       x = (int) rand() % 100 + 1;
       sprintf(str, "%d", x);
@@ -32,13 +32,13 @@ int main() {
       if (write(to_client, str, 16) == -1) {
         break;
       }
-      printf("2nd spot\n");
+      //printf("2nd spot\n");
       sleep(1);
     }
-    printf("3rd spot\n");
+    //printf("3rd spot\n");
     close(to_client);
     close(from_client);
-    printf("4th spot\n");
+    //printf("4th spot\n");
   }
   return 0;
 }
