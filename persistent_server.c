@@ -1,6 +1,20 @@
 #include "pipe_networking.h"
 
-void eachClient() {
+static void sighandler(int signo) {
+  if (signo == SIGINT) {
+    unlink("./toServer");
+    exit(1);
+  }
+  if (signo == SIGPIPE) {
+    printf("In sigpipe\n");
+  }
+}
+
+int main() {
+  signal(SIGINT, sighandler);
+  signal(SIGPIPE, sighandler);
+  srand(time(NULL));
+
   printf("1st spot\n");
   int to_client;
   int from_client;
@@ -29,22 +43,6 @@ void eachClient() {
   close(to_client);
   close(from_client);
   printf("4th spot\n");
-}
 
-static void sighandler(int signo) {
-  if (signo == SIGINT) {
-    unlink("./toServer");
-    exit(1);
-  }
-  if (signo == SIGPIPE) {
-    eachClient();
-  }
-}
-
-int main() {
-  signal(SIGINT, sighandler);
-  signal(SIGPIPE, sighandler);
-  srand(time(NULL));
-  eachClient();
   return 0;
 }
