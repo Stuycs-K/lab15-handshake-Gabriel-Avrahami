@@ -1,15 +1,15 @@
 #include "pipe_networking.h"
 
-static void sighandler(int signo) {
+/*static void sighandler(int signo) {
   if (signo == SIGINT) {
   }
   if (signo == SIGPIPE) {
   }
-}
+}*/
 
 int main() {
-  signal(SIGINT, sighandler);
-  signal(SIGPIPE, sighandler);
+  //signal(SIGINT, sighandler);
+  //signal(SIGPIPE, sighandler);
 
   srand(time(NULL));
 
