@@ -28,27 +28,27 @@ int main() {
     int p;
     p = fork();
     if (p) {
-      //RESET TO TOP. MOVE SERVER_SETUP CALL TO DIFF FUNCTION?
+      //RESET TO TOP
     }
     else {
       server_handshake_half(int *to_client, int from_client);
-    }
 
-    //printf("hi 2nd\n");
-    while (1) {
-      x = (int) rand() % 100 + 1;
-      sprintf(str, "%d", x);
+      //printf("hi 2nd\n");
+      while (1) {
+        x = (int) rand() % 100 + 1;
+        sprintf(str, "%d", x);
 
-      if (write(to_client, str, 16) == -1) {
-        break;
+        if (write(to_client, str, 16) == -1) {
+          break;
+        }
+        //printf("2nd spot\n");
+        sleep(1);
       }
-      //printf("2nd spot\n");
-      sleep(1);
+      //printf("3rd spot\n");
+      close(to_client);
+      close(from_client);
+      //printf("4th spot\n");
     }
-    //printf("3rd spot\n");
-    close(to_client);
-    close(from_client);
-    //printf("4th spot\n");
   }
   return 0;
 }
