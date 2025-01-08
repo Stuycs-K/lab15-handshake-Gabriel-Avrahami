@@ -23,7 +23,17 @@ int main() {
   char str[16];
 
   while (1) {
-    from_client = server_handshake(&to_client);
+    from_client = server_setup();
+    remove("./toServer");
+    int p;
+    p = fork();
+    if (p) {
+      //RESET TO TOP. MOVE SERVER_SETUP CALL TO DIFF FUNCTION?
+    }
+    else {
+      server_handshake_half(int *to_client, int from_client);
+    }
+
     //printf("hi 2nd\n");
     while (1) {
       x = (int) rand() % 100 + 1;
