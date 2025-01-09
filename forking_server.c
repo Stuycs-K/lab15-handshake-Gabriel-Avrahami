@@ -3,7 +3,7 @@
 static void sighandler(int signo) {
   if (signo == SIGINT) {
     remove("./toServer");
-    exit(1);
+    exit(0);
   }
   if (signo == SIGPIPE) {
     //printf("In sigpipe\n");
@@ -19,8 +19,7 @@ int main() {
   int to_client;
   int from_client;
 
-  int x = 0;
-  char str[16];
+  char str[32];
 
   while (1) {
     from_client = server_setup();
@@ -35,14 +34,12 @@ int main() {
 
       //printf("hi 2nd\n");
       while (1) {
-        x = (int) rand() % 100 + 1;
-        sprintf(str, "%d", x);
+        read(from_client, str, 32);
 
-        if (write(to_client, str, 16) == -1) {
+        if (write(to_client, str, strlen(str)) == -1) {
           break;
         }
         //printf("2nd spot\n");
-        sleep(1);
       }
       //printf("3rd spot\n");
       close(to_client);
