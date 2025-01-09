@@ -15,13 +15,12 @@ int main() {
   int from_server;
 
   from_server = client_handshake( &to_server );
-
-  char pid[32] = "my pid is ";
-  char id[16];
-  sprintf(id, "%d", getpid());
-  strcat(pid, id);
   
   while (1) {
+    char pid[32] = "my pid is ";
+    char id[16];
+    sprintf(id, "%d", getpid());
+    strcat(pid, id);
     write(to_server, pid, strlen(pid));
     
     char str[16];
