@@ -20,7 +20,7 @@ int main() {
 
   char pid[32] = "my pid is";
   char id[16];
-  sprintf(id, "%s", getpid());
+  sprintf(id, "%d", getpid());
   strcat(pid, id);
   write(to_server, pid, strlen(pid));
     
