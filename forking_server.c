@@ -19,8 +19,6 @@ int main() {
   int to_client;
   int from_client;
 
-  char str[32];
-
   while (1) {
     from_client = server_setup();
     remove("./toServer");
@@ -34,6 +32,7 @@ int main() {
 
       //printf("hi 2nd\n");
       while (1) {
+        char str[32];
         read(from_client, str, 32);
 
         if (write(to_client, str, strlen(str)) == -1) {
