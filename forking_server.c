@@ -32,7 +32,7 @@ int main() {
 
       //printf("hi 2nd\n");
       while (1) {
-        char str[32];
+        char str[32] = "";
         read(from_client, str, 32);
 
         if (write(to_client, str, strlen(str)) == -1) {
