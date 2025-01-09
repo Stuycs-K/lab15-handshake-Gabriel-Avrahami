@@ -19,8 +19,10 @@ int main() {
   from_server = client_handshake( &to_server );
 
   char pid[32] = "my pid is";
-  strcat(pid, atoi(getpid()));
-  write(to_server, pid, strlen(pid);
+  char id[16];
+  sprintf(id, "%s", getpid());
+  strcat(pid, id);
+  write(to_server, pid, strlen(pid));
     
   char str[16];
   read(from_server, str, 16);
