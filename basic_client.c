@@ -22,10 +22,13 @@ int main() {
   char id[16];
   sprintf(id, "%d", getpid());
   strcat(pid, id);
-  write(to_server, pid, strlen(pid));
+  
+  while (1) {
+    write(to_server, pid, strlen(pid));
     
-  char str[16];
-  read(from_server, str, 16);
-  printf("Returned: %s\n", str);
-  sleep(1);
+    char str[16];
+    read(from_server, str, 16);
+    printf("Returned: %s\n", str);
+    sleep(1);
+  }
 }
