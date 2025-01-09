@@ -18,7 +18,7 @@ int main() {
   
   while (1) {
     char pid[32] = "my pid is ";
-    char id[16];
+    char id[16] = "";
     sprintf(id, "%d", getpid());
     strcat(pid, id);
     write(to_server, pid, strlen(pid));
